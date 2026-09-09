@@ -1,0 +1,88 @@
+<!DOCTYPE>
+<html> 
+
+    <head> 
+        <meta charset = "UTF-8">
+        <title>Contact Us</title>
+
+    </head>
+    <body> 
+
+        <nav> 
+            <a href = "index.html" target = "_self">Home</a> |
+            <a href = "products.html" target = "_self">Products</a> |
+            <a href = "about.html" target = "_self">About Us </a> |
+            <a href = "contact.html" target = "_self">Contact Us </a> |
+        </nav>
+        <header>
+            <h1> Contact Us </h1>
+        </header>
+        <section>
+            <form id = "form1" action = "coust.php" method = "POST">
+
+                <lable for = "fullname">Full Name </lable>
+                <input type = "text" id = "fullname" name = "fullname" required = "yes"><br><br>
+
+                <lable for = "email">Email </lable>
+                <input type = "email" id = "email"><br><br>
+
+                <fieldset>
+                    <legend>Gender</legend>
+
+                    <lable for = "male">Male</lable> 
+                    <input type = "radio" id = "male" name = "gender" value = "male"> <br>
+
+                    <lable for = "female">Female</lable>
+                    <input type = "radio" id = "female" name = "gender" value ="female"><br>
+                </fieldset>
+                <br>
+
+
+                <lable for = "product">Product Category </lable>
+                <select id ="product" name = "product"> 
+
+                    <option value = "Electronics">Electronics</option>
+                    <option value = "Accessories">Accessories</option>
+                    <option value = "Computers">Computers</option>
+                    <option value = "Monile Devices">Mobile Devices</option>
+
+
+                </select>
+
+                <fieldset>
+                    <legend>Area of Interest </legend>
+                    <lable for = "newProduct">New Product</lable>
+                    <input type = "checkbox" id = "newProduct" name = "newProducts" value = "New Product"><br> 
+
+                    <lable for = "specialOffer">Special Offer</lable>
+                    <input type = "checkbox" id = "specialOffer" name = "specialOffer" value = "Special Offer"><br>
+
+                    <lable for = "computerAccessories"> Computer Accessories </lable>
+                    <input type = "checkbox" id = "computerAccessories" name = "computerAccessories" value = "Computer Accessories"><br>
+
+                    <lable for = "mobileAccessories">Mobile Accessories</lable>
+                    <input type = "checkbox" id = "mobileAccessories" name = "mobileAccessories" value = "Mobile Accessories"><br>
+
+                </fieldset>
+
+                <br> 
+                <lable for = "message"> Message </lable> <br>
+                <textarea name = "message" id = "message" rows = "10" cols = "30">Type Here </textarea>
+                <br><br>
+                <input type = "submit" value = "submit">
+                &nbsp&nbsp
+                <input type = "reset" value = "reset">
+
+            </form>
+
+            </section>
+
+            <hr>
+          
+		  <footer>
+    <p>&copy; 2026 SmartCart Online Store. All rights reserved.</p>
+</footer>
+    </body>
+	
+
+</html>
