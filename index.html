@@ -1,56 +1,113 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>SmartCart</title>
+        <title>SudoCart</title>
         <meta charset = "UTF-8">
+        <link rel = "stylesheet" href = "style.css" >
     </head>
-    <body>
-        <header>
-            <h1>SmartCart Online Stroe</h1>
-        </header>
-        <p>
-        <nav>
-            <a href = "index.html" target = "_self"> Home </a> | 
-            <a href = "products.html" target = "_self"> Product </a> |
-            <a href = "about.html" target = "_self"> About Us </a> |
-            <a href = "contact.html" target = "_self"> Contact Us </a>  <br>
+        <body>
+            <div class = "firstrow">
+                <h3>SUDOCART</h3>
+                <nav class = "navigation">
+                    <a href = "index.html">Home </a>
+                    <a href = "product.html">Product </a>
+                    <a href = "#categories">Categories</a>
+                    <a href = "#about">About</a>
+                    <a href = "#Contact">Contact </a>
+                </nav>
+            </div>
+            <hr>
+            <div class = "headerContain">
+                <div class = "textitem">
+                    <p class = "smallText">New Collecton 2026</p>
+                    <h1>Technology <br><span>Made Simple</span> </h1>
+                    <p>Discover Modern Products Design for Your Everyday Digital <br>LifeStyle</p> 
+                    <a href = "product.html" class = "shopButton">Shop Now </a>
+                </div>
 
-        </nav>
-        <br>
-        <main>
-           
-            <img src = "images/banner.jpg" alt = "banner" width = "100%" />
+                <img src = "images/banner.jpg" alt = "banner" class = "banner">
 
-            <section>
-                <h2> Welcome To SmartCart Online Store </h1>
-				
-				<p>Your trusted online shopping destination for quality products at affordable prices. Explore our wide range of electronics, accessories, and everyday essentials, all in one convenient place. Shop with ease, enjoy great deals, and experience a simple and reliable online shopping experience.
- </p>
-            </section>
-        
-            <section> 
-                <h2>Featured Product</h2>
-                <img src = "images/jordan.jpg" alt = "shoe" width = "25%" height = "200px"/> <br>
-                <h3>Air Jordan 18 OG </h3>
-				<p>200$ </p>
-                <img src = "images/solo4.jpg" alt = "shoe" width = "25%" height = "200px"/><br>
-				<h3>Beats Solo3 Wireless </h3>
-				<p>800$ </p>
-                <img src = "images/beast.jpg" alt = "shoe" width = "25%" height = "200px"/><br>
-				<h3>Beats Powerbeats Pro 2 Wireless Earbuds </h3>
-				<p>600$ </p>
-            </section>
-        
+            </div>
+            <h3>Shop By Category</h3>
+            <div class = "category">
+                <div class = "card">
+                    <h2>Audio</h4>
+                    <p>Headpone & Speakers</p>
+                </div>
+                <div class = "card">
+                    <h2>Smart Tech</h2>
+                    <p>Smart Devices & Accessories</p>
+                </div>
+                <div class = "card">
+                    <h2>Gaming</h2>
+                    <p>Gaming Gear & Equipment</p>
+                </div>
+                <div = "card">
+                    <h2>Accessories</h2>
+                    <p>EveryDay Tech Esseantials</p>
+                </div>
 
-        </main>
+            </div>
 
-        <hr>
-		<!-- Footer -->
-    <footer>
-        <p><strong>SmartCart Online Store</strong></p>
-        <p>Email: shop@gmail.com</p>
-        <p>Phone: +94 77 123 4567</p>
-    </footer>
+            <h3>Featured Product</h3>
+            <div class = "featured">
+                <div class = "cardF">
+                    <img src = "images/solo4.jpg" alt = "HeadPhone">
+                    <p>Audio</p>
+                    <p>Nova Wireless Headphones</p>
+                    <p>Rs. 12,500<p>
+                </div>
 
-    </body>
+                <div class = "cardF">
+                    <img src = "images/beast.jpg" alt = "Bluetooth Speaker">
+                    <p>Audio</p>
+                    <p>Pules Bluetooth Speaker</p>
+                    <p>Rs. 8,500</p>
+                </div>
+
+                <div class = "cardF">
+                    <img src = "images/watch.jpg" alt = "Smart Watch">
+                    <p>Smart Tech</p>
+                    <p>Vortex Smart Watch</p>
+                    <p>Rs. 15,999</p>
+                </div>
+
+                <div class = "cardF">
+                    <img src = "images/mouse.jpg" alt = "Gaming Mouse">
+                    <p>Gaming</p>
+                    <p>Vortex Gaming Mouse</p>
+                    <p>Rs. 9,600</p>
+                </div>
+            </div>
+
+            <div class = "boxcard">
+                <p>Why SudoCart?</p>
+                <h2>Better Product.</h2>
+                <h2>Better Experence.</h2>
+                <p>SudoCart brings together modern technology, Quality product and a <br> simple shopping experience in one place.</p>
+            </div>
+
+            <div class = "contact">
+                <div class = "main">
+                    <h2>SudoCart</h2>
+                    <p>Modern Technology. Simple Shopping.</p>
+                </div>
+                <div class = "Contact">
+                    <h2>Contact</h2>
+                    <p>sudocart@gmail.com</p>
+                    <p>+94 77 123 4567</p>
+                </div>
+                <div class = "follow">
+                    <h2>Follow Us</h2>
+                    <p>Instagram</p>
+                    <p>Facebook</p>
+                </div>
+            </div>
+            <hr>
+            <footer>
+                <p class = "copyright">
+                @ SudoCart. All right reserved.
+                </p>
+            </footer>
+        </body>
 </html>
