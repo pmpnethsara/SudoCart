@@ -2,9 +2,13 @@
 *{
     box-sizing : border-box;
 }
+
 html{
 
     scroll-behavior: smooth;
+}
+.topicCategory{
+    color : #777;
 }
 .firstrow{
     display : flex;
@@ -16,26 +20,33 @@ html{
     padding-right : 15px;
 }
 
-h3{
+h3 logo{
     font-weight : bold;
     font-family : "courier new";
 }
 
 .navigation{
     display : flex;
-    gap : 25px;
-
 }
+
 .navigation a{
+    padding : 8px 16px;
     text-decoration : none;
-
+    color : #777;
 }
+
+.navigation a:hover{
+    background-color : blue;
+    color : white;
+}
+
 body{
 
     background-color : #f5f5f5;
     font-family : "Arial", sans-serif;
 
 }
+
 .headerContain{
     display : flex;
     justify-content : space-between;
@@ -58,4 +69,131 @@ body{
 }
 .textitem h1 span{
     color : #777;
+}
+.shopButton{
+    display : inline-block;
+    background-color : blue;
+    color : white;
+    text-decoration : none;
+    border-radius : 5px;
+    padding : 15px 30px;
+}
+.shopButton:hover{
+
+    background-color : #111;
+
+}
+.category{
+    display : grid;
+    grid-template-columns : repeat(4, 1fr);
+    gap : 20px;
+}
+.card{
+    background-color : white;
+    border-radius : 5px;
+    border : 1px solid #e5e5e5;
+    padding : 15px;
+    transition : 0.3s;
+
+}
+.topicCategory{
+    margin : 15px;
+    font-style : "Times New Roman", serif;
+    color : #777;
+}
+.card:hover{
+    transform : translateY(-5px);
+
+}
+.card p{
+    color : #777;
+}
+
+.featured {
+    display : grid;
+    grid-template-columns : repeat(4, 1fr);
+    gap : 20px;
+    align-items: center;
+
+}
+.cardF{
+    background-color : white;
+    transition : 0.3s;
+    padding : 15px;
+
+
+}
+.cardF img{
+    height : 280px;
+    width : 100%;
+    object-fit : cover;
+
+}
+.featured .cardF:hover{
+    transform : translateY(-5px);
+
+}
+.smallp{
+    color : #777;
+
+}
+.cardF p{
+    font-weight : bold;
+}
+button {
+
+    background-color : #0000ff;
+    color : #ffffff;
+    width : 100%;
+    padding : 12px;
+    border : none;
+
+}
+
+button:hover{
+
+    background-color : black;
+
+}
+.boxcard{
+    
+    display : flex;
+    justify-content : space-between;
+    background-color : #696969;
+    padding-left : 20px;
+    padding-right : 20px;
+    align-items : center;
+    margin : 20px;
+    border-radius : 15px;
+    height : 300px;
+
+}
+.boxcard p{
+    color : black;
+    font-weight : bold;
+}
+.boxcard h1{
+    
+    color : #ffff;
+    font-family : "Verdana", sans-serif;
+}
+.boxcard:hover{
+    background-color : #a9a9a9;
+
+}
+.about{
+
+    display : flex;
+    justify-content : space-between;
+    padding : 15px;
+    background-color : #696969;
+    margin : 20px;
+    border-radius : 15px;
+
+}
+.about h2{
+    color : #ffffff;
+}
+.about p{
+    line-height : 0.8;
 }
