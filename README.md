@@ -1,82 +1,32 @@
-# E-Commerce Website
+# SudoRank
 
-A modern e-commerce website developed as a front-end project for browsing products and exploring a basic online shopping experience.
+Campus tech event & competition platform for Sri Lankan universities.
 
-## Overview
+## Setup
+1. Create the database: run `database.sql` in MySQL/MariaDB.
+   - Already have the old database? Just run: `ALTER TABLE events ADD COLUMN image_url VARCHAR(255) NULL;`
+2. Copy `.env.example` to `.env` and fill in your MySQL password and a long random `JWT_SECRET`.
+3. Install and start:
+   ```bash
+   npm install
+   npm start
+   ```
+4. Open http://localhost:3000/index_2.html
 
-This project demonstrates the design and development of an e-commerce website using standard web technologies. It focuses on clean structure, responsive layouts, and a simple user experience.
+## Structure
+- `server.js` – Express API (auth, events, ads, admin, photo uploads)
+- `public/` – the only folder served to browsers (HTML, CSS, JS)
+- `uploads/` – event photos submitted by organizers (created automatically)
 
-## Features
+## Event photos
+Organizers can attach a JPG/PNG/WEBP (max 3 MB) in the "Post a university event" form.
+It shows on the event card after an admin approves the event. Admins can see the photo in the admin panel.
 
-* Responsive home page
-* Product listing and product details
-* Product categories
-* Shopping cart interface
-* User login and registration pages
-* Checkout interface
-* Navigation between pages
-* Responsive design for different screen sizes
+## Merch store
+Organizers can submit competition merchandise (T-shirts, bangles, sticker packs, other) from the
+"Submit a product" tab in the publish section: name, category, price (LKR), seller, order link
+(Google Form or website), photo and description. Admins review, edit, approve, unpublish or delete
+products in the Admin Dashboard. Approved products appear in the Store section with an "Order now" button
+that opens the seller's own link. SudoRank does not process payments.
 
-## Technologies
-
-| Technology | Purpose                       |
-| ---------- | ----------------------------- |
-| HTML5      | Website structure             |
-| CSS3       | Styling and responsive layout |
-| JavaScript | Client-side functionality     |
-| Git        | Version control               |
-| GitHub     | Repository and collaboration  |
-
-## Project Structure
-
-```text
-E-Commerce-Website/
-│
-├── index.html
-├── products.html
-├── cart.html
-├── login.html
-├── register.html
-├── checkout.html
-│
-├── css/
-│   └── style.css
-│
-├── js/
-│   └── script.js
-│
-├── images/
-│   └── products/
-│
-└── README.md
-```
-
-## Getting Started
-
-### Clone the Repository
-
-```bash
-git clone https://github.com/your-username/e-commerce-website.git
-```
-
-### Open the Project
-
-Open `index.html` in a web browser, or use the Live Server extension in Visual Studio Code.
-
-## Future Improvements
-
-* Backend and database integration
-* User authentication
-* Payment gateway integration
-* Admin dashboard
-* Product search and filtering
-* Product reviews and ratings
-* Order tracking
-
-## Purpose
-
-This project was created for educational purposes to practice front-end web development and understand the structure of an e-commerce website.
-
-## License
-
-This project is intended for educational purposes.
+Upgrading from the first version? Re-run `database.sql` (it only creates the missing `products` table).

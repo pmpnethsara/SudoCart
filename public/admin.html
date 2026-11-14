@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — SudoRank</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style_2.css">
+  <style>
+    .admin-wrap { padding: 50px 6%; }
+    .admin-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #e9e7df; font-size: 13px; }
+    .admin-table th, .admin-table td { border: 1px solid var(--line); padding: 12px; text-align: left; vertical-align: top; }
+    .admin-table th { background: #171918; color: var(--lime); font: 10px var(--mono); letter-spacing: .08em; }
+    .admin-table input, .admin-table select { width: 100%; padding: 6px; border: 1px solid #bbb; background: var(--paper); }
+    .admin-thumb { width: 90px; height: 56px; object-fit: cover; display: block; border: 1px solid var(--line); }
+    .no-photo { font: 10px var(--mono); color: var(--muted); }
+    .table-scroll { overflow-x: auto; }
+    .admin-table textarea { width: 100%; min-width: 180px; padding: 6px; border: 1px solid #bbb; background: var(--paper); font: inherit; }
+    .badge-live { background: var(--lime); padding: 4px 8px; font: 10px var(--mono); font-weight: 700; }
+    .badge-pending { background: #171918; color: #fff; padding: 4px 8px; font: 10px var(--mono); }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index_2.html"><span class="brand-mark">SudoRank<span>_</span></span> ADMIN</a>
+    <div class="auth-buttons">
+      <a href="index_2.html" class="btn btn-signin">← Back to Site</a>
+    </div>
+  </header>
+
+  <main class="admin-wrap">
+    <div class="eyebrow"><span class="eyebrow-line"></span> DATABASE CONTROL PANEL</div>
+    <h2>Manage & Approve <span class="italic-accent">Events.</span></h2>
+
+    <div class="table-scroll">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>STATUS</th>
+          <th>PHOTO</th>
+          <th>TITLE</th>
+          <th>UNIVERSITY</th>
+          <th>CATEGORY</th>
+          <th>EVENT DATE</th>
+          <th>DEADLINE</th>
+          <th>VENUE</th>
+          <th>ACTIONS</th>
+        </tr>
+      </thead>
+      <tbody id="adminEventsBody"></tbody>
+    </table>
+    </div>
+
+    <h2 style="margin-top:60px;">Store <span class="italic-accent">Products.</span></h2>
+    <div class="table-scroll">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>STATUS</th>
+          <th>PHOTO</th>
+          <th>NAME</th>
+          <th>CATEGORY</th>
+          <th>PRICE (LKR)</th>
+          <th>SELLER</th>
+          <th>ORDER LINK</th>
+          <th>DESCRIPTION</th>
+          <th>ACTIONS</th>
+        </tr>
+      </thead>
+      <tbody id="adminProductsBody"></tbody>
+    </table>
+    </div>
+
+    <h2 style="margin-top:60px;">Sponsored <span class="italic-accent">Ads.</span></h2>
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>STATUS</th>
+          <th>COMPANY</th>
+          <th>CAMPAIGN</th>
+          <th>TYPE</th>
+          <th>DESCRIPTION</th>
+          <th>ACTIONS</th>
+        </tr>
+      </thead>
+      <tbody id="adminAdsBody"></tbody>
+    </table>
+  </main>
+
+  <script>
+    const API = "/api";
+    const token = localStorage.getItem("sr_token");
+    const user = JSON.parse(localStorage.getItem("sr_user") || "null");
+    if (!token || !user || user.role !== "admin") {
+      alert("Admin access only.");
+      location.href = "index_2.html";
+    }
+
+    function esc(value = "") {
+      return String(value ?? "").replace(/[&<>"']/g, ch => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      }[ch]));
+    }
+
+    async function loadAdminData() {
+      const res = await fetch(`${API}/admin/all`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (!res.ok) { location.href = "index_2.html"; return; }
+      const { events, ads, products } = await res.json();
+
+      document.getElementById("adminEventsBody").innerHTML = events.map(ev => `
+        <tr id="row-${ev.id}">
+          <td>${ev.approved ? '<span class="badge-live">PUBLISHED</span>' : '<span class="badge-pending">PENDING</span>'}</td>
+          <td>${ev.image_url
+            ? `<a href="${esc(ev.image_url)}" target="_blank" rel="noopener"><img class="admin-thumb" src="${esc(ev.image_url)}" alt="Event photo"></a>`
+            : '<span class="no-photo">NO PHOTO</span>'}</td>
+          <td><input value="${esc(ev.title)}" id="title-${ev.id}"></td>
+          <td><input value="${esc(ev.university)}" id="uni-${ev.id}"></td>
+          <td><input value="${esc(ev.category)}" id="cat-${ev.id}"></td>
+          <td><input type="date" value="${esc(ev.date)}" id="date-${ev.id}"></td>
+          <td><input type="date" value="${esc(ev.deadline)}" id="dead-${ev.id}"></td>
+          <td><input value="${esc(ev.venue)}" id="venue-${ev.id}"></td>
+          <td style="display:flex;gap:6px;flex-wrap:wrap;">
+            <button class="btn btn-signup" onclick="saveEvent(${ev.id}, true)">Approve & Save</button>
+            <button class="btn btn-signin" onclick="saveEvent(${ev.id}, false)">Unpublish</button>
+            <button class="btn btn-signin" style="border-color:#c62828;color:#c62828;" onclick="deleteEvent(${ev.id})">Delete</button>
+          </td>
+        </tr>
+      `).join("");
+
+      const CATS = ["T-Shirt", "Bangle", "Sticker Pack", "Other"];
+      document.getElementById("adminProductsBody").innerHTML = (products || []).map(p => `
+        <tr>
+          <td>${p.approved ? '<span class="badge-live">PUBLISHED</span>' : '<span class="badge-pending">PENDING</span>'}</td>
+          <td>${p.image_url
+            ? `<a href="${esc(p.image_url)}" target="_blank" rel="noopener"><img class="admin-thumb" src="${esc(p.image_url)}" alt="Product photo"></a>`
+            : '<span class="no-photo">NO PHOTO</span>'}</td>
+          <td><input value="${esc(p.name)}" id="pname-${p.id}"></td>
+          <td><select id="pcat-${p.id}">${CATS.map(c => `<option${c === p.category ? " selected" : ""}>${c}</option>`).join("")}</select></td>
+          <td><input type="number" min="0" step="1" value="${esc(Math.round(Number(p.price)))}" id="pprice-${p.id}"></td>
+          <td><input value="${esc(p.seller)}" id="pseller-${p.id}"></td>
+          <td><input type="url" value="${esc(p.order_link)}" id="plink-${p.id}"></td>
+          <td><textarea rows="3" id="pdesc-${p.id}">${esc(p.description)}</textarea></td>
+          <td style="display:flex;gap:6px;flex-wrap:wrap;">
+            <button class="btn btn-signup" onclick="saveProduct(${p.id}, true)">Approve & Save</button>
+            <button class="btn btn-signin" onclick="saveProduct(${p.id}, false)">Unpublish</button>
+            <button class="btn btn-signin" style="border-color:#c62828;color:#c62828;" onclick="deleteProduct(${p.id})">Delete</button>
+          </td>
+        </tr>
+      `).join("");
+
+      document.getElementById("adminAdsBody").innerHTML = ads.map(ad => `
+        <tr>
+          <td>${ad.approved ? '<span class="badge-live">ACTIVE</span>' : '<span class="badge-pending">PENDING</span>'}</td>
+          <td>${esc(ad.company)}</td>
+          <td>${esc(ad.title)}</td>
+          <td>${esc(ad.ad_type)}</td>
+          <td>${esc(ad.description)}</td>
+          <td>
+            <button class="btn btn-signup" onclick="toggleAd(${ad.id}, ${!ad.approved})">
+              ${ad.approved ? "Pause Ad" : "Approve Ad"}
+            </button>
+          </td>
+        </tr>
+      `).join("");
+    }
+
+    async function saveEvent(id, approved) {
+      await fetch(`${API}/admin/events/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({
+          title: document.getElementById(`title-${id}`).value,
+          university: document.getElementById(`uni-${id}`).value,
+          category: document.getElementById(`cat-${id}`).value,
+          date: document.getElementById(`date-${id}`).value,
+          deadline: document.getElementById(`dead-${id}`).value,
+          venue: document.getElementById(`venue-${id}`).value,
+          approved
+        })
+      });
+      loadAdminData();
+    }
+
+    async function deleteEvent(id) {
+      if (!confirm("Delete this event permanently?")) return;
+      await fetch(`${API}/admin/events/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      loadAdminData();
+    }
+
+    async function saveProduct(id, approved) {
+      const res = await fetch(`${API}/admin/products/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({
+          name: document.getElementById(`pname-${id}`).value,
+          category: document.getElementById(`pcat-${id}`).value,
+          price: document.getElementById(`pprice-${id}`).value,
+          seller: document.getElementById(`pseller-${id}`).value,
+          order_link: document.getElementById(`plink-${id}`).value,
+          description: document.getElementById(`pdesc-${id}`).value,
+          approved
+        })
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        alert(err.error || "Could not save product.");
+        return;
+      }
+      loadAdminData();
+    }
+
+    async function deleteProduct(id) {
+      if (!confirm("Delete this product permanently?")) return;
+      await fetch(`${API}/admin/products/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      loadAdminData();
+    }
+
+    async function toggleAd(id, approved) {
+      await fetch(`${API}/admin/ads/${id}/approve`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ approved })
+      });
+      loadAdminData();
+    }
+
+    loadAdminData();
+  </script>
+</body>
+</html>

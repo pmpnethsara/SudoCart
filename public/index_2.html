@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="SudoRank — discover university hackathons, tech events, internships and workshops across Sri Lanka.">
+  <title>SudoRank — Find Your Next Build</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style_2.css">
+</head>
+
+<body>
+  <!-- 1. LIVE NEWS LINE (Top Announcement Ticker) -->
+  <div class="announcement">
+    <span class="live-dot"></span>
+    <span class="news-label">LIVE FEED //</span>
+    <div class="news-marquee">
+      <div class="news-track" id="newsTrack">Loading latest campus tech news...</div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <a class="brand" href="#"><span class="brand-mark">SudoRank<span>_</span></span></a>
+    <nav>
+      <a href="#discover">Discover</a>
+      <a href="#calendar">Calendar</a>
+      <a href="#store">Store</a>
+      <a href="#publish">For organizers</a>
+    </nav>
+
+    <!-- Button Group -->
+    <div class="auth-buttons" id="authArea">
+      <button type="button" class="btn btn-signin" onclick="openAuthModal('signin')">Sign In</button>
+      <button type="button" class="btn btn-signup" onclick="openAuthModal('signup')">Sign Up</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-grid"></div>
+      <div class="hero-container">
+        <!-- Left Column: Main Titles & Actions -->
+        <div class="hero-content">
+          <div class="eyebrow"><span class="eyebrow-line"></span> THE UNIVERSITY COMPETITION, CONNECTED</div>
+          <h1>BUILD. CODE.<br><span class="outline-text">COMPETE.</span><span class="asterisk">*</span></h1>
+          <p class="hero-copy">Hackathons, workshops, tech talks and opportunities — all the things happening across Sri
+            Lankan universities, in one place.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#discover">Explore events <span>↘</span></a>
+            <a class="text-link" href="#publish">I'm an organizer <span>↗</span></a>
+          </div>
+          <div class="hero-meta"><span>01 / DISCOVER</span><span>02 / CONNECT</span><span>03 / CREATE</span></div>
+        </div>
+
+        <!-- Right Column: Countdown Timer Widget -->
+        <div class="hero-sidebar">
+          <div class="countdown-box">
+            <div class="countdown-header">
+              <span>NEXT UPCOMING EVENT</span>
+              <strong id="cdEventTitle">LOADING...</strong>
+            </div>
+            <div class="countdown-digits">
+              <div class="cd-unit"><b id="cdDays">00</b><span>DAYS</span></div>
+              <div class="cd-sep">:</div>
+              <div class="cd-unit"><b id="cdHours">00</b><span>HRS</span></div>
+              <div class="cd-sep">:</div>
+              <div class="cd-unit"><b id="cdMins">00</b><span>MIN</span></div>
+              <div class="cd-sep">:</div>
+              <div class="cd-unit"><b id="cdSecs">00</b><span>SEC</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-bottom"><span>BUILT FOR THE CURIOUS.</span><span>SCROLL TO EXPLORE ↓</span></div>
+    </section>
+
+    <!-- 3. DYNAMIC SCROLLING TICKER -->
+    <section class="ticker">
+      <div class="ticker-track" id="eventTicker">
+        HACKATHONS <b>✳</b> TECH WORKSHOPS <b>✳</b> INTERNSHIPS <b>✳</b> COMMUNITY EVENTS <b>✳</b> HACKATHONS
+        <b>✳</b> TECH WORKSHOPS <b>✳</b> INTERNSHIPS <b>✳</b>
+      </div>
+    </section>
+
+    <section class="section discover-section" id="discover">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow"><span class="eyebrow-line"></span> WHAT'S HAPPENING</div>
+          <h2>Find your <span class="italic-accent">people.</span></h2>
+        </div>
+        <p class="section-note">Your next opportunity might be<br>one event away.</p>
+      </div>
+      <div class="filter-panel">
+        <label class="search-wrap"><span>⌕</span><input id="searchInput" type="search"
+            placeholder="Search events, skills, or keywords..."></label>
+        <label class="filter-control"><span>UNIVERSITY</span><select id="universityFilter">
+            <option value="">All universities</option>
+            <option>University of Moratuwa</option>
+            <option>University of Colombo</option>
+            <option>University of Peradeniya</option>
+            <option>University of Sri Jayewardenepura</option>
+            <option>SLIIT</option>
+            <option>Other</option>
+          </select></label>
+        <label class="filter-control"><span>CATEGORY</span><select id="categoryFilter">
+            <option value="">All categories</option>
+            <option>AI</option>
+            <option>Cybersecurity</option>
+            <option>Networking</option>
+            <option>Programming</option>
+            <option>Web Development</option>
+            <option>Robotics</option>
+            <option>Career</option>
+          </select></label>
+        <button class="clear-button" id="clearFilters">CLEAR ×</button>
+      </div>
+      <div class="results-line"><span id="resultCount">0 EVENTS FOUND</span><span>CURATED FOR THE NEXT GENERATION
+          ↗</span></div>
+      <div class="event-grid" id="eventGrid"></div>
+      <div class="empty-state hidden" id="emptyState">No events match those filters. Try another search.</div>
+    </section>
+
+
+    <section class="section calendar-section" id="calendar">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow"><span class="eyebrow-line"></span> SAVE THE DATE</div>
+          <h2>Plan your <span class="italic-accent">next move.</span></h2>
+        </div>
+        <div class="calendar-controls"><button id="prevMonth" aria-label="Previous month">←</button><strong
+            id="monthLabel"></strong><button id="nextMonth" aria-label="Next month">→</button></div>
+      </div>
+      <div class="calendar-wrap">
+        <div class="calendar-weekdays">
+          <span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span><span>SUN</span>
+        </div>
+        <div class="calendar-grid" id="calendarGrid"></div>
+      </div>
+      <p class="calendar-hint"><span class="calendar-dot"></span> Event dates are marked. Select a date to see its
+        events.</p>
+      <div class="selected-day-events" id="selectedDayEvents"></div>
+    </section>
+
+        <section class="section store-section" id="store">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow"><span class="eyebrow-line"></span> OFFICIAL MERCH</div>
+          <h2>Wear the <span class="italic-accent">competition.</span></h2>
+        </div>
+        <p class="section-note">T-shirts, bangles and sticker packs<br>from campus competitions.</p>
+      </div>
+      <div class="store-filters" id="storeFilters">
+        <button type="button" class="chip active" data-cat="">ALL</button>
+        <button type="button" class="chip" data-cat="T-Shirt">T-SHIRTS</button>
+        <button type="button" class="chip" data-cat="Bangle">BANGLES</button>
+        <button type="button" class="chip" data-cat="Sticker Pack">STICKER PACKS</button>
+        <button type="button" class="chip" data-cat="Other">OTHER</button>
+      </div>
+      <div class="results-line"><span id="productCount">0 PRODUCTS</span><span>ORDERS ARE COMPLETED ON THE SELLER'S FORM ↗</span></div>
+      <div class="event-grid" id="productGrid"></div>
+      <div class="empty-state hidden" id="productEmpty">No products yet. Organizers can add merch using the form below.</div>
+    </section>
+
+    <section class="publish-section" id="publish">
+      <div class="publish-intro">
+        <div class="eyebrow"><span class="eyebrow-line"></span> MAKE IT OFFICIAL</div>
+        <h2>Have something<br>worth <span class="italic-accent">sharing?</span></h2>
+        <p>University clubs and company teams can submit events, opportunities and competition merchandise for the SudoRank community.</p>
+        <div class="publish-stamp">YOUR<br>EVENT.<br><span>OUR</span><br>COMMUNITY.</div>
+      </div>
+      <div class="publish-forms">
+        <div class="form-tabs">
+          <button type="button" class="form-tab active" data-form="eventForm">POST A UNIVERSITY EVENT <span>↗</span></button>
+          <button type="button" class="form-tab" data-form="productForm">SUBMIT A PRODUCT <span>↗</span></button>
+        </div>
+        <form id="eventForm" class="submit-form">
+          <div class="form-intro">01 / EVENT SUBMISSION <span>FOR UNIVERSITY CLUBS & ORGANIZERS</span></div>
+          <label>EVENT NAME<input name="title" required placeholder="e.g. Moratuwa CodeFest 2026"></label>
+          <div class="form-row"><label>ORGANIZING UNIVERSITY<select name="university" required>
+                <option value="">Select university</option>
+                <option>University of Moratuwa</option>
+                <option>University of Colombo</option>
+                <option>University of Peradeniya</option>
+                <option>University of Sri Jayewardenepura</option>
+                <option>University of Kelaniya</option>
+                <option>University of Ruhuna</option>
+                <option>Sabaragamuwa University of Sri Lanka</option>
+                <option>Uva Wellassa University of Sri Lanka</option>
+                <option>University of Jaffna</option>
+                <option>SLIIT</option>
+                <option>Other</option>
+              </select></label><label>CATEGORY<select name="category" required>
+                <option value="">Select category</option>
+                <option>AI</option>
+                <option>Cybersecurity</option>
+                <option>Networking</option>
+                <option>Programming</option>
+                <option>Web Development</option>
+                <option>Robotics</option>
+              </select></label></div>
+          <div class="form-row"><label>EVENT DATE<input name="date" type="date" required></label><label>REGISTRATION
+              DEADLINE<input name="deadline" type="date" required></label></div>
+          <label>VENUE / PLATFORM<input name="venue" required placeholder="e.g. University auditorium / Online"></label>
+          <label>REGISTRATION LINK<input name="link" type="url" placeholder="https://..."></label>
+          <label>COMPETITION PHOTO (JPG / PNG / WEBP, max 3 MB)
+            <input name="image" type="file" accept="image/png,image/jpeg,image/webp">
+          </label>
+          <img id="imagePreview" class="image-preview hidden" alt="Selected photo preview">
+          <label>SHORT DESCRIPTION<textarea name="description" rows="3" required
+              placeholder="What should students know?"></textarea></label>
+          <button class="button button-primary form-submit" type="submit">Submit event for review
+            <span>↗</span></button>
+          <p class="form-footnote">Submissions are saved to the database and reviewed by admins before publishing.</p>
+        </form>
+
+        <form id="productForm" class="submit-form hidden">
+          <div class="form-intro">02 / PRODUCT SUBMISSION <span>FOR ORGANIZERS &amp; MERCH SELLERS</span></div>
+          <label>PRODUCT NAME<input name="name" required placeholder="e.g. CodeFest 2026 Official T-Shirt"></label>
+          <div class="form-row">
+            <label>CATEGORY<select name="category" required>
+                <option value="">Select category</option>
+                <option>T-Shirt</option>
+                <option>Bangle</option>
+                <option>Sticker Pack</option>
+                <option>Other</option>
+              </select></label>
+            <label>PRICE (LKR)<input name="price" type="number" min="0" step="1" required placeholder="e.g. 1500"></label>
+          </div>
+          <label>SELLER / ORGANIZER<input name="seller" required placeholder="e.g. IEEE Student Branch, University of Moratuwa"></label>
+          <label>ORDER LINK (GOOGLE FORM OR WEBSITE)<input name="order_link" type="url" required placeholder="https://forms.gle/..."></label>
+          <label>PRODUCT PHOTO (JPG / PNG / WEBP, max 3 MB)
+            <input name="image" type="file" accept="image/png,image/jpeg,image/webp">
+          </label>
+          <img id="productPreview" class="image-preview hidden" alt="Selected product preview">
+          <label>PRODUCT DESCRIPTION<textarea name="description" rows="3" required
+              placeholder="Sizes, colours, what is included, delivery or pickup details..."></textarea></label>
+          <button class="button button-primary form-submit" type="submit">Submit product for review
+            <span>↗</span></button>
+          <p class="form-footnote">Products are reviewed by admins before appearing in the store. Customers order through your own link; SudoRank does not process payments.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer><a class="brand" href="#"><span class="brand-mark">SR<span>_</span></span><span>SUDORANK<span
+          class="brand-period">.</span></span></a><span>CONNECT. COMPETE. CREATE.</span><span>© 2026 SUDORANK — SRI
+      LANKA</span></footer>
+
+  <!-- AUTHENTICATION MODAL -->
+  <div id="authModal" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <div class="modal-top">
+        <strong id="authModalTitle">SIGN IN TO SUDORANK</strong>
+        <button type="button" class="clear-button" onclick="closeAuthModal()">✕</button>
+      </div>
+      <div class="form-tabs">
+        <button type="button" class="form-tab active" id="tabSignin" onclick="switchAuthTab('signin')">SIGN IN</button>
+        <button type="button" class="form-tab" id="tabSignup" onclick="switchAuthTab('signup')">SIGN UP</button>
+      </div>
+      <form id="authForm" class="submit-form">
+        <label id="nameField" class="hidden">FULL NAME<input name="name" placeholder="Pawan Perera"></label>
+        <label>EMAIL ADDRESS<input name="email" type="email" required placeholder="you@university.lk"></label>
+        <label>PASSWORD<input name="password" type="password" minlength="6" required placeholder="••••••••"></label>
+        <p id="authError" style="color:#ff5252;font:11px var(--mono);margin:0;"></p>
+        <button type="submit" class="button button-primary form-submit" id="authSubmitBtn">Sign In <span>↗</span></button>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
